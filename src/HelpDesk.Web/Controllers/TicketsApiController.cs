@@ -30,7 +30,7 @@ namespace HelpDesk.Web.Controllers
             return Ok(tickets);
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = "GetTicketById")]
         public async Task<IActionResult> Get(int id)
         {
             var ticket = await _context.Tickets
@@ -57,9 +57,8 @@ namespace HelpDesk.Web.Controllers
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Ok();
+            return CreatedAtRoute("GetTicketById", new {id = ticket.Id}, ticket);
         }
-
 
         [HttpPost("{id:int}/close")]
         public async Task<IActionResult> Close(
