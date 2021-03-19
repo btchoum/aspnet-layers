@@ -1,4 +1,5 @@
 using HelpDesk.Web.Data;
+using HelpDesk.Web.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,8 @@ namespace HelpDesk.Web
         {
             var connectionString = Configuration.GetConnectionString("HelpDeskDbContext");
             services.AddDbContext<HelpDeskDbContext>(options => options.UseSqlServer(connectionString));
+
+            services.AddSingleton<IEmailGateway, NoopEmailGateway>();
             
             services.AddControllers();
             services.AddSwaggerGen(c =>
